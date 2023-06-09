@@ -1,0 +1,18 @@
+{
+    "name": "atheo/indoframe",
+    "description": "Library for Framework Indoframe",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Atheo\\Indoframe\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "atheo810",
+            "email": "atheos810@gmail.com"
+        }
+    ],
+    "require": {}
+}
