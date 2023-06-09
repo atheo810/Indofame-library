@@ -1,6 +1,6 @@
 <?php
 
-namespace Indoframe\Core\Routes;
+namespace Atheo\Indoframe\Core\Routes;
 
 class WebRoute extends BaseRoute{
     public function __construct()

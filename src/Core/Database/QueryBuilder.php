@@ -1,6 +1,6 @@
 <?php
 
-namespace Indoframe\Core\Database;
+namespace Atheo\Indoframe\Core\Database;
 
 use InvalidArgumentException;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Indoframe\Core\Http;
+namespace Atheo\Indoframe\Core\Http;
 
 use Exception;
 

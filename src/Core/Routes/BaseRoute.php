@@ -1,6 +1,6 @@
 <?php 
 
-namespace Indoframe\Core\Routes;
+namespace Atheo\Indoframe\Core\Routes;
 
 abstract class BaseRoute{
     // include All route

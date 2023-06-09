@@ -1,8 +1,8 @@
 <?php
 
-namespace Indoframe\Core\Database;
+namespace Atheo\Indoframe\Core\Database;
 
-use Indoframe\Core\Database\BaseConnection;
+use Atheo\Indoframe\Core\Database\BaseConnection;
 
 class MySQLConnection extends BaseConnection
 {

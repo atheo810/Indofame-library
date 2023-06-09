@@ -1,6 +1,6 @@
 <?php
 
-namespace Indoframe\Core\Routing;
+namespace Atheo\Indoframe\Core\Routing;
 
 class Route
 {
