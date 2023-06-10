@@ -15,9 +15,8 @@ class QueryBuilder
     private $table;
     private $query;
 
-    public function __construct(\PDO $connection, string $table)
+    public function __construct(string $table)
     {
-        $this->connection = $connection;
         $this->table = $table;
         $this->query = '';
     }
@@ -35,7 +34,7 @@ class QueryBuilder
      * @param $query return the query from class QueryBuilder
      * @return string
      */
-    public function getQuery()
+    public function getQuery():string
     {
         return $this->query;
     }
@@ -43,8 +42,9 @@ class QueryBuilder
     /**
      * Select Function for SELECT in SQL
      * @param string|array $columns
+     * @return object
      */
-    public function select(string|array $columns = '*')
+    public function select(string|array $columns = '*'):object
     {
         if (!is_array($columns)) {
             $columns = [$columns];
@@ -58,8 +58,9 @@ class QueryBuilder
      * Using Where SQL to add in the query
      * @param array $conditions
      * @param string $logicalOperator
+     * @return object
      */
-    public function where(array $conditions, string $logicalOperator = 'AND')
+    public function where(array $conditions, string $logicalOperator = 'AND'):object
     {
         if (!is_array($conditions)) {
             throw new InvalidArgumentException("Invalid conditions. Array expected.");
@@ -99,9 +100,10 @@ class QueryBuilder
      * ORDERBY from SQL
      * @param string $direction
      * @param string|array $columns
+     * @return object
      * 
      */
-    public function orderBy($columns, string $direction = 'ASC')
+    public function orderBy(string|array $columns, string $direction = 'ASC'):object
     {
         if (!is_array($columns)) {
             $columns = [$columns];
@@ -135,8 +137,9 @@ class QueryBuilder
     /**
      * set the limit for Query
      * @param string $limit
+     * @param object
      */
-    public function limit($limit)
+    public function limit($limit):object
     {
         $this->query .= ' LIMIT ' . $limit;
         return $this;
@@ -147,8 +150,9 @@ class QueryBuilder
      * @param string $table
      * @param string $type
      * @param string $on
+     * @return object
      */
-    public function join(string $table, string $type, string $on)
+    public function join(string $table, string $type, string $on):object
     {
         $this->query .= " $type JOIN $table ON $on";
         return $this;
@@ -158,8 +162,9 @@ class QueryBuilder
      * Left Join SQL
      * @param string $table
      * @param string $on
+     * @return object
      */
-    public function leftJoin(string $table, string $on)
+    public function leftJoin(string $table, string $on):object
     {
         $this->query .= " LEFT JOIN $table ON $on";
         return $this;
@@ -169,8 +174,9 @@ class QueryBuilder
      * Right Join SQL
      * @param string $table
      * @param string $on
+     * @return object
      */
-    public function rightJoin(string $table, string $on)
+    public function rightJoin(string $table, string $on):object
     {
         $this->query .= " RIGHT JOIN $table ON $on";
         return $this;
@@ -180,9 +186,9 @@ class QueryBuilder
      * Inner Join SQL
      * @param string $table
      * @param string $on
-     * @return $this
+     * @return object $this
      */
-    public function innerJoin(string $table, string $on)
+    public function innerJoin(string $table, string $on):object
     {
         $this->query .= " INNER JOIN $table ON $on";
         return $this;
@@ -192,8 +198,9 @@ class QueryBuilder
      * Full Join SQL
      * @param string $table
      * @param string $on
+     * @return object
      */
-    public function fullJoin(string $table, string $on)
+    public function fullJoin(string $table, string $on):object
     {
         $this->query .= " FULL JOIN $table ON $on";
         return $this;
@@ -202,8 +209,9 @@ class QueryBuilder
     /**
      * INSERT INTO for SQL Query
      * @param array $data
+     * @return object
      */
-    public function insert(array $data)
+    public function insert(array $data):object
     {
         $columns = implode(', ', array_keys($data));
         $values = implode(', ', array_map([$this, 'sanitize'], $data));
@@ -215,8 +223,9 @@ class QueryBuilder
     /**
      * Update Query For SQL
      * @param array $data
+     * @return object
      */
-    public function update(array $data)
+    public function update(array $data):object
     {
         if (empty($data)) {
             throw new InvalidArgumentException("Empty data for update");

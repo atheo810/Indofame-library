@@ -11,4 +11,8 @@ abstract class BaseModel {
     {
         $this->db = $connection->getConnection();
     }
+
+    public function getConnection(){
+        return $this->db->getConnection();
+    }
 }

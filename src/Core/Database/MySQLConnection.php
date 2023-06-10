@@ -6,9 +6,10 @@ use Atheo\Indoframe\Core\Database\BaseConnection;
 
 class MySQLConnection extends BaseConnection
 {
-    public function connect(){
-
+    public function connect()
+    {
     }
+    
     public function __construct()
     {
         $host = "localhost";
@@ -45,8 +46,7 @@ class MySQLConnection extends BaseConnection
     {
         $statement = $this->connection->prepare($query);
         $statement->execute($bindings);
-        
+
         return $statement;
     }
-    
 }
