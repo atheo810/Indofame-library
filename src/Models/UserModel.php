@@ -1,6 +1,6 @@
 <?php 
 
-namespace Atheo\Indoframe\Core\Models;
+namespace Atheo\Indoframe\Models;
 
 use Atheo\Indoframe\Core\Database\BaseConnection;
 
