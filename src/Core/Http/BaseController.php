@@ -10,7 +10,6 @@ class BaseController
      * Render View 
      * @param string $viewname 
      * @param array $data
-     * @return string 
      */
     protected function view(string $viewname, array $data = [])
     {

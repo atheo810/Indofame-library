@@ -23,22 +23,39 @@ class Route
         $this->action = $action;
     }
 
-    public function getMethod()
+
+    /**
+     * Return Method
+     * @return string 
+     */
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    public function getPath()
+    /**
+     * Return Path
+     * @return string
+     */
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getController()
+    /**
+     * Get Controller Name
+     * @return string
+     */
+    public function getController(): string
     {
         return $this->controller;
     }
 
-    public function getAction()
+    /**
+     * Get function inside the Controller
+     * @return string
+     */
+    public function getAction(): string
     {
         return $this->action;
     }
