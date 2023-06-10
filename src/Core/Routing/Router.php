@@ -51,8 +51,7 @@ class Router
             $actionName = $matchedRoute->getAction();
 
             // Check if controller class exists
-            $controllerClass = 'Indoframe\Controllers\\' . $controllerName;
-
+            $controllerClass = 'app\Controllers\\' . $controllerName;
             if (class_exists($controllerClass)) {
                 $controller = new $controllerClass();
 
