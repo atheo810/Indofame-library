@@ -61,6 +61,6 @@ class Router
             }
         }
 
-        echo "404 Not Found";
+        include VIEWPATH . "_404.php";
     }
 }
