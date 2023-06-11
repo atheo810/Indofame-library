@@ -13,13 +13,15 @@ class QueryBuilder
      */
     private $connection;
     private $table;
-    private $query;
+    public $query;
 
-    public function __construct(string $table)
+    public function __construct(BaseConnection $connection, string $table = "")
     {
+        $this->connection = $connection->getConnection();
         $this->table = $table;
         $this->query = '';
     }
+    
 
     /**
      * 
