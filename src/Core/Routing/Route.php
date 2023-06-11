@@ -4,10 +4,11 @@ namespace Atheo\Indoframe\Core\Routing;
 
 class Route
 {
-    private $method;
-    private $path;
-    private $controller;
-    private $action;
+    public $method;
+    public $path;
+    public $controller;
+    public $action;
+    public static $routes = [];
 
     /**
      * @param string $method
@@ -23,40 +24,45 @@ class Route
         $this->action = $action;
     }
 
+    public static function get(string $path, string $controller, string $action)
+    {
+        return self::addRoute('GET', $path, $controller, $action);
+    }
+    
+    public static function post(string $path, string $controller, string $action)
+    {
+        return self::addRoute('POST', $path, $controller, $action);
+    }
 
-    /**
-     * Return Method
-     * @return string 
-     */
+    public static function addRoute(string $method, string $path, string $controller, string $action)
+    {
+        return self::$routes[] = new self($method, $path, $controller, $action);
+        
+    }
+
+    public static function getRoutes()
+    {
+        return self::$routes;
+    }
+
     public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * Return Path
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * Get Controller Name
-     * @return string
-     */
     public function getController(): string
     {
         return $this->controller;
     }
 
-    /**
-     * Get function inside the Controller
-     * @return string
-     */
     public function getAction(): string
     {
         return $this->action;
     }
+
 }
