@@ -62,5 +62,6 @@ class Router
         }
 
         include VIEWPATH . "_404.php";
+        
     }
 }
