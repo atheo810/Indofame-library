@@ -7,7 +7,6 @@ use InvalidArgumentException;
 class QueryBuilder
 {
     /**
-     * @var $connection to save Connection Database
      * @var $table data table from Database
      * @var $query to store data from Query
      */
