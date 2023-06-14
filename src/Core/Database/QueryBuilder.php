@@ -2,6 +2,7 @@
 
 namespace Atheo\Indoframe\Core\Database;
 
+use Atheo\Indoframe\Core\Database\BaseConnection;
 use InvalidArgumentException;
 
 class QueryBuilder
@@ -26,19 +27,11 @@ class QueryBuilder
      * 
      * @param string $value
      */
-    public function quote($value)
+    public function quote(string $value)
     {
         return $this->connection->quote($value);
     }
 
-    /**
-     * @param $query return the query from class QueryBuilder
-     * @return string
-     */
-    public function getQuery():string
-    {
-        return $this->query;
-    }
 
     /**
      * Select Function for SELECT in SQL
@@ -111,10 +104,6 @@ class QueryBuilder
         }
         $this->query .= ' ORDER BY ' . implode(', ', $columns) . ' ' . $direction;
         return $this;
-    }
-
-    public function get()
-    {
     }
 
     /**

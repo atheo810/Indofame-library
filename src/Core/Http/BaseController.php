@@ -13,7 +13,7 @@ class BaseController
      */
     protected function view(string $viewname, array $data = [])
     {
-        $viewPath = '../app/Views/' . $viewname . '.php';
+        $viewPath = VIEWPATH . $viewname . 'View.php';
         if(!file_exists($viewPath)){
             throw new Exception('View file not found : ' . $viewname);
         }

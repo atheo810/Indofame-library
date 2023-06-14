@@ -29,8 +29,7 @@ class Router
                 continue;
             }
 
-            
-            $pattern = '#(' . $routePath . ')$#';
+            $pattern = '#^' . $routePath . '$#';
             if (preg_match($pattern, $uri)) {
                 return $route;
             }
@@ -61,7 +60,6 @@ class Router
                 }
             }
         }
-
         include VIEWPATH . "_404.php";
         
     }
