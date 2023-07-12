@@ -21,6 +21,8 @@ class RawSql
 
     /**
      * Create new instance with new SQL String
+     * @param string $newSqlString
+     * @return object $new
      */
     public function with(string $newSqlString)
     {

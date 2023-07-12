@@ -7,12 +7,12 @@ use InvalidArgumentException;
 class QueryBuilder
 {
     /**
-     * @var $table data table from Database
-     * @var $query to store data from Query
+     * @var string $table data table from Database
+     * @var string $query to store data from Query
      */
-    private $connection;
-    private $table;
     public $query;
+    private $table;
+    private $connection;
 
     public function __construct(BaseConnection $connection, string $table = "")
     {
@@ -32,10 +32,9 @@ class QueryBuilder
     }
 
     /**
-     * @param $query return the query from class QueryBuilder
      * @return string
      */
-    public function getQuery():string
+    public function getQuery(): string
     {
         return $this->query;
     }
@@ -138,9 +137,9 @@ class QueryBuilder
     /**
      * set the limit for Query
      * @param string $limit
-     * @param object
+     * @return object
      */
-    public function limit($limit):object
+    public function limit(string $limit): object
     {
         $this->query .= ' LIMIT ' . $limit;
         return $this;

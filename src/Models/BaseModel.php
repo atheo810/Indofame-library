@@ -7,8 +7,19 @@ use Atheo\Indoframe\Core\Database\QueryBuilder;
 
 abstract class BaseModel
 {
-    protected $db;
+    /**
+     * @var string $table
+     */
     protected string $table;
+
+    /**
+     * @var BaseConnection $db
+     */
+    protected $db;
+
+    /**
+     * @var QueryBuilder $query
+     */
     protected $query;
 
     public function __construct(BaseConnection $connection)
@@ -17,7 +28,7 @@ abstract class BaseModel
         $this->query = new QueryBuilder($connection, $this->table);
     }
 
-    public function getConnection()
+    public function getConnection(): BaseConnection
     {
         return $this->db->getConnection();
     }

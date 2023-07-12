@@ -4,8 +4,14 @@ namespace Atheo\Indoframe\Core\Http;
 
 class Request
 {
-
+    /**
+     * @var string $method
+     */
     private $method;
+
+    /**
+     * @var string $uri
+     */
     private $uri;
 
     /**
