@@ -2,11 +2,13 @@
 
 namespace Atheo\Indoframe\Core\Routes;
 
-class WebRoute extends BaseRoute{
+class WebRoute extends BaseRoute
+{
+
     public function __construct()
     {
         $this->routes = [
             '/home' => 'HomeController@index'
         ];
     }
-}   
+}

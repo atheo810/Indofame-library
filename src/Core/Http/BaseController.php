@@ -9,9 +9,9 @@ class BaseController
     /**
      * Render View 
      * @param string $viewname 
-     * @param array $data
+     * @param array<mixed> $data
      */
-    protected function view(string $viewname, array $data = [])
+    protected function view(string $viewname, array $data = []):void
     {
         $viewPath = '../app/Views/' . $viewname . 'View.php';
         if(!file_exists($viewPath)){

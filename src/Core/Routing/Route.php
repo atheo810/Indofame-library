@@ -24,7 +24,10 @@ class Route
      * @var string $action
      */
     public string $action;
-    
+
+    /**
+     * @var array<mixed> $routes
+     */
     public static $routes = [];
 
     /**
@@ -41,23 +44,26 @@ class Route
         $this->action = $action;
     }
 
-    public static function get(string $path, string $controller, string $action)
+    public static function get(string $path, string $controller, string $action): object
     {
         return self::addRoute('GET', $path, $controller, $action);
     }
     
-    public static function post(string $path, string $controller, string $action)
+    public static function post(string $path, string $controller, string $action): object
     {
         return self::addRoute('POST', $path, $controller, $action);
     }
 
-    public static function addRoute(string $method, string $path, string $controller, string $action)
+    public static function addRoute(string $method, string $path, string $controller, string $action): object
     {
         return self::$routes[] = new self($method, $path, $controller, $action);
         
     }
 
-    public static function getRoutes()
+    /**
+     * @return array<mixed>
+     */
+    public static function getRoutes(): array
     {
         return self::$routes;
     }

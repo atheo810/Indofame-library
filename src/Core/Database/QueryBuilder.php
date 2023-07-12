@@ -1,251 +1,264 @@
 <?php
 
-namespace Atheo\Indoframe\Core\Database;
+// namespace Atheo\Indoframe\Core\Database;
 
-use InvalidArgumentException;
+// use InvalidArgumentException;
 
-class QueryBuilder
-{
-    /**
-     * @var string $table data table from Database
-     * @var string $query to store data from Query
-     */
-    public $query;
-    private $table;
-    private $connection;
+// class QueryBuilder
+// {
+//     /**
+//      * Data table from Database
+//      * @var string $table data table from Database
+//      */
+//     private $table;
 
-    public function __construct(BaseConnection $connection, string $table = "")
-    {
-        $this->connection = $connection->getConnection();
-        $this->table = $table;
-        $this->query = '';
-    }
-    
+//     /**
+//      * To store data from Query
+//      *  @var string $query
+//      */
+//     public $query;
 
-    /**
-     * 
-     * @param string $value
-     */
-    public function quote($value)
-    {
-        return $this->connection->quote($value);
-    }
+//     /**
+//      * @var BaseConnection $connection
+//      */
+//     private $connection;
 
-    /**
-     * @return string
-     */
-    public function getQuery(): string
-    {
-        return $this->query;
-    }
+//     public function __construct(BaseConnection $connection, string $table = "")
+//     {
+//         $this->connection = $connection->getConnection();
+//         $this->table = $table;
+//         $this->query = '';
+//     }
 
-    /**
-     * Select Function for SELECT in SQL
-     * @param string|array $columns
-     * @return object
-     */
-    public function select(string|array $columns = '*'):object
-    {
-        if (!is_array($columns)) {
-            $columns = [$columns];
-        }
 
-        $this->query = 'SELECT ' . implode(', ', $columns) . ' FROM ' . $this->table;
-        return $this;
-    }
+//     /**
+//      * 
+//      * @param string $value
+//      */
+//     public function quote(string $value)
+//     {
+//         return $this->connection->quote($value);
+//     }
 
-    /**
-     * Using Where SQL to add in the query
-     * @param array $conditions
-     * @param string $logicalOperator
-     * @return object
-     */
-    public function where(array $conditions, string $logicalOperator = 'AND'):object
-    {
-        if (!is_array($conditions)) {
-            throw new InvalidArgumentException("Invalid conditions. Array expected.");
-        }
+//     /**
+//      * @return string
+//      */
+//     public function getQuery(): string
+//     {
+//         return $this->query;
+//     }
 
-        $clauses = [];
-        foreach ($conditions as $column => $value) {
-            $operator = '=';
-            if (is_array($value)) {
-                if (count($value) != 2) {
-                    throw new InvalidArgumentException("Invalid condition format for column '$column'");
-                }
-                list($operator, $value) = $value;
-            }
+//     /**
+//      * Select Function for SELECT in SQL
+//      * @param string|array $columns
+//      * @return object
+//      */
+//     public function select(string|array $columns = '*'): object
+//     {
+//         if (!is_array($columns)) {
+//             $columns = [$columns];
+//         }
 
-            $operator = strtoupper(trim($operator));
-            if (!in_array($operator, ['=', '!=', '<', '>', '<=', '>=', 'LIKE'])) {
-                throw new InvalidArgumentException("Invalid operator '$operator' for column '$column'");
-            }
+//         $this->query = 'SELECT ' . implode(', ', $columns) . ' FROM ' . $this->table;
+//         return $this;
+//     }
 
-            // prevent SQL injection
-            $value = $this->sanitize($value);
-            $clauses[] = $column . ' ' . $operator . ' ' . $value;
-        }
+//     /**
+//      * Using Where SQL to add in the query
+//      * @param array $conditions
+//      * @param string $logicalOperator
+//      * @return object
+//      */
+//     public function where(array $conditions, string $logicalOperator = 'AND'): object
+//     {
+//         if (!is_array($conditions)) {
+//             throw new InvalidArgumentException("Invalid conditions. Array expected.");
+//         }
 
-        $logicalOperator = strtoupper(trim($logicalOperator));
-        if (!in_array($logicalOperator, ['AND', 'OR', 'NOT'])) {
-            throw new InvalidArgumentException("Invalid logical operator '$logicalOperator'");
-        }
+//         $clauses = [];
+//         foreach ($conditions as $column => $value) {
+//             $operator = '=';
+//             if (is_array($value)) {
+//                 if (count($value) != 2) {
+//                     throw new InvalidArgumentException("Invalid condition format for column '$column'");
+//                 }
+//                 list($operator, $value) = $value;
+//             }
 
-        $this->query .= ' WHERE ' . implode(' ' . $logicalOperator . ' ', $clauses);
+//             $operator = strtoupper(trim($operator));
+//             if (!in_array($operator, ['=', '!=', '<', '>', '<=', '>=', 'LIKE'])) {
+//                 throw new InvalidArgumentException("Invalid operator '$operator' for column '$column'");
+//             }
 
-        return $this;
-    }
+//             // prevent SQL injection
+//             $value = $this->sanitize($value);
+//             $clauses[] = $column . ' ' . $operator . ' ' . $value;
+//         }
 
-    /**
-     * ORDERBY from SQL
-     * @param string $direction
-     * @param string|array $columns
-     * @return object
-     * 
-     */
-    public function orderBy(string|array $columns, string $direction = 'ASC'):object
-    {
-        if (!is_array($columns)) {
-            $columns = [$columns];
-        }
-        $this->query .= ' ORDER BY ' . implode(', ', $columns) . ' ' . $direction;
-        return $this;
-    }
+//         $logicalOperator = strtoupper(trim($logicalOperator));
+//         if (!in_array($logicalOperator, ['AND', 'OR', 'NOT'])) {
+//             throw new InvalidArgumentException("Invalid logical operator '$logicalOperator'");
+//         }
 
-    public function get()
-    {
-    }
+//         $this->query .= ' WHERE ' . implode(' ' . $logicalOperator . ' ', $clauses);
 
-    /**
-     * SANITEZE 
-     * to prevent SQL injection
-     * @param string|int|bool|null $value
-     */
-    public function sanitize($value)
-    {
-        if (is_null($value)) {
-            return 'NULL';
-        } elseif (is_bool($value)) {
-            return ($value) ? '1' : '0';
-        } elseif (is_numeric($value)) {
-            return $value;
-        } else {
-            return $this->connection->quote($value);
-        }
-    }
+//         return $this;
+//     }
 
-    /**
-     * set the limit for Query
-     * @param string $limit
-     * @return object
-     */
-    public function limit(string $limit): object
-    {
-        $this->query .= ' LIMIT ' . $limit;
-        return $this;
-    }
+//     /**
+//      * ORDERBY from SQL
+//      * @param string $direction
+//      * @param string|array $columns
+//      * @return object
+//      * 
+//      */
+//     public function orderBy(string|array $columns, string $direction = 'ASC'): object
+//     {
+//         if (!is_array($columns)) {
+//             $columns = [$columns];
+//         }
+//         $this->query .= ' ORDER BY ' . implode(', ', $columns) . ' ' . $direction;
+//         return $this;
+//     }
 
-    /**
-     * Join function for SQL
-     * @param string $table
-     * @param string $type
-     * @param string $on
-     * @return object
-     */
-    public function join(string $table, string $type, string $on):object
-    {
-        $this->query .= " $type JOIN $table ON $on";
-        return $this;
-    }
+//     public function get()
+//     {
+//     }
 
-    /**
-     * Left Join SQL
-     * @param string $table
-     * @param string $on
-     * @return object
-     */
-    public function leftJoin(string $table, string $on):object
-    {
-        $this->query .= " LEFT JOIN $table ON $on";
-        return $this;
-    }
+//     /**
+//      * SANITEZE 
+//      * to prevent SQL injection
+//      * @param string|int|bool|null $value
+//      */
+//     public function sanitize(string|int|bool|null $value)
+//     {
+//         if (is_null($value)) {
+//             return 'NULL';
+//         } elseif (is_bool($value)) {
+//             return ($value) ? '1' : '0';
+//         } elseif (is_numeric($value)) {
+//             return $value;
+//         } else {
+//             return $this->connection->quote($value);
+//         }
+//     }
 
-    /**
-     * Right Join SQL
-     * @param string $table
-     * @param string $on
-     * @return object
-     */
-    public function rightJoin(string $table, string $on):object
-    {
-        $this->query .= " RIGHT JOIN $table ON $on";
-        return $this;
-    }
+//     /**
+//      * set the limit for Query
+//      * @param string $limit
+//      * @return object
+//      */
+//     public function limit(string $limit): object
+//     {
+//         $this->query .= ' LIMIT ' . $limit;
+//         return $this;
+//     }
 
-    /**
-     * Inner Join SQL
-     * @param string $table
-     * @param string $on
-     * @return object $this
-     */
-    public function innerJoin(string $table, string $on):object
-    {
-        $this->query .= " INNER JOIN $table ON $on";
-        return $this;
-    }
+//     /**
+//      * Join function for SQL
+//      * @param string $table
+//      * @param string $type
+//      * @param string $on
+//      * @return object
+//      */
+//     public function join(string $table, string $type, string $on): object
+//     {
+//         $this->query .= " $type JOIN $table ON $on";
+//         return $this;
+//     }
 
-    /**
-     * Full Join SQL
-     * @param string $table
-     * @param string $on
-     * @return object
-     */
-    public function fullJoin(string $table, string $on):object
-    {
-        $this->query .= " FULL JOIN $table ON $on";
-        return $this;
-    }
+//     /**
+//      * Left Join SQL
+//      * @param string $table
+//      * @param string $on
+//      * @return object
+//      */
+//     public function leftJoin(string $table, string $on): object
+//     {
+//         $this->query .= " LEFT JOIN $table ON $on";
+//         return $this;
+//     }
 
-    /**
-     * INSERT INTO for SQL Query
-     * @param array $data
-     * @return object
-     */
-    public function insert(array $data):object
-    {
-        $columns = implode(', ', array_keys($data));
-        $values = implode(', ', array_map([$this, 'sanitize'], $data));
+//     /**
+//      * Right Join SQL
+//      * @param string $table
+//      * @param string $on
+//      * @return object
+//      */
+//     public function rightJoin(string $table, string $on): object
+//     {
+//         $this->query .= " RIGHT JOIN $table ON $on";
+//         return $this;
+//     }
 
-        $this->query = "INSERT INTO {$this->table} ($columns) VALUES ($values)";
-        return $this;
-    }
+//     /**
+//      * Inner Join SQL
+//      * @param string $table
+//      * @param string $on
+//      * @return object $this
+//      */
+//     public function innerJoin(string $table, string $on): object
+//     {
+//         $this->query .= " INNER JOIN $table ON $on";
+//         return $this;
+//     }
 
-    /**
-     * Update Query For SQL
-     * @param array $data
-     * @return object
-     */
-    public function update(array $data):object
-    {
-        if (empty($data)) {
-            throw new InvalidArgumentException("Empty data for update");
-        }
+//     /**
+//      * Full Join SQL
+//      * @param string $table
+//      * @param string $on
+//      * @return object
+//      */
+//     public function fullJoin(string $table, string $on): object
+//     {
+//         $this->query .= " FULL JOIN $table ON $on";
+//         return $this;
+//     }
 
-        $this->query = 'UPDATE ' . $this->table . ' SET ';
+//     /**
+//      * INSERT INTO for SQL Query
+//      * @param array<string> $data
+//      * @return object
+//      */
+//     public function insert(array $data): object
+//     {
+//         $columns = implode(', ', array_keys($data));
+//         $values = implode(', ', array_map([$this, 'sanitize'], $data));
 
-        $values = [];
-        foreach ($data as $column => $value) {
-            $values[] = $column . ' = ' . $this->sanitize($value);
-        }
+//         $this->query = "INSERT INTO {$this->table} ($columns) VALUES ($values)";
+//         return $this;
+//     }
 
-        $this->query .= implode(', ', $values);
+//     /**
+//      * Update Query For SQL
+//      * @param array $data
+//      * @return object
+//      */
+//     public function update(array $data): object
+//     {
+//         if (empty($data)) {
+//             throw new InvalidArgumentException("Empty data for update");
+//         }
 
-        return $this;
-    }
+//         $this->query = 'UPDATE ' . $this->table . ' SET ';
 
-    public function execute(){
-        $statment = $this->connection->query($this->query);
+//         $values = [];
+//         foreach ($data as $column => $value) {
+//             $values[] = $column . ' = ' . $this->sanitize($value);
+//         }
 
-        return $statment;
-    }
-}
+//         $this->query .= implode(', ', $values);
+
+//         return $this;
+//     }
+
+//     /**
+//      * @return BaseConnection
+//      */
+//     public function execute()
+//     {
+//         $statment = $this->connection->query($this->query);
+
+//         return $statment;
+//     }
+// }

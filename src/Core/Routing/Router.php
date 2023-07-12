@@ -4,6 +4,9 @@ namespace Atheo\Indoframe\Core\Routing;
 
 class Router
 {
+    /**
+     * @var array<Route> $routes
+     */
     protected static $routes = [];
 
     /**
@@ -12,23 +15,30 @@ class Router
      * @param string $action
      * @return void
      */
-    public static function get(string $path, string $controller, string $action):void
+    public static function get(string $path, string $controller, string $action): void
     {
         self::$routes[] = Route::get($path, $controller, $action);
     }
 
-    public static function post(string $path, string $controller, string $action)
+    /**
+     * @param string $path
+     * @param string $controller
+     * @param string $action
+     */
+    public static function post(string $path, string $controller, string $action): void
     {
         self::$routes[] = Route::post($path, $controller, $action);
     }
 
-    private function match($method, $uri)
+    /**
+     * @param string $method
+     * @param string $uri
+     */
+    private function match(string $method, string $uri): object
     {
         foreach (self::$routes as $route) {
             $routeMethod = $route->method;
             $routePath = $route->path;
-
-            // var_dump(preg_grep("#:#", $route['path']));
 
             if ($routeMethod !== $method) {
                 continue;
@@ -67,6 +77,5 @@ class Router
         }
 
         include VIEWPATH . "_404.php";
-        
     }
 }

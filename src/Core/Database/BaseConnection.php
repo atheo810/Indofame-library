@@ -2,26 +2,23 @@
 
 namespace Atheo\Indoframe\Core\Database;
 
+
 abstract class BaseConnection
 {
 
-    /**
-     * Protected Conection
-     * 
-     */
-    protected $connection;
+    // protected $connection;
 
-    abstract public function connect();
+    // abstract public function connect();
 
-    public function getConnection(){
-        return $this->connection;
-    }
+    // public function getConnection(){
+    //     return $this->connection;
+    // }
 
-    /**
-     * Close Connection from database
-     * @return null
-     */
-    public function closeConnection(){
-        return $this->connection = null;
-    }
+    // /**
+    //  * Close Connection from database
+    //  * @return null
+    //  */
+    // public function closeConnection(): null{
+    //     return $this->connection = null;
+    // }
 }
