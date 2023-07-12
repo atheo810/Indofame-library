@@ -4,10 +4,27 @@ namespace Atheo\Indoframe\Core\Routing;
 
 class Route
 {
-    public $method;
-    public $path;
-    public $controller;
-    public $action;
+    /**
+     * Name of the Method
+     * @var string $method
+     */
+    public string $method;
+
+    /**
+     * @var string $path
+     */
+    public string $path;
+
+    /**
+     * @var string $controller
+     */
+    public string $controller;
+
+    /**
+     * @var string $action
+     */
+    public string $action;
+    
     public static $routes = [];
 
     /**

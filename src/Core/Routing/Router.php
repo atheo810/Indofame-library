@@ -8,6 +8,9 @@ class Router
 
     /**
      * @param string $path
+     * @param string $controller
+     * @param string $action
+     * @return void
      */
     public static function get(string $path, string $controller, string $action):void
     {

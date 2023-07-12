@@ -28,6 +28,9 @@ abstract class BaseModel
         $this->query = new QueryBuilder($connection, $this->table);
     }
 
+    /**
+     * @return BaseConnection
+     */
     public function getConnection(): BaseConnection
     {
         return $this->db->getConnection();
