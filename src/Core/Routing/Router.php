@@ -9,7 +9,7 @@ class Router
     /**
      * @param string $path
      */
-    public static function get(string $path, string $controller, string $action)
+    public static function get(string $path, string $controller, string $action):void
     {
         self::$routes[] = Route::get($path, $controller, $action);
     }
@@ -25,17 +25,20 @@ class Router
             $routeMethod = $route->method;
             $routePath = $route->path;
 
+            // var_dump(preg_grep("#:#", $route['path']));
+
             if ($routeMethod !== $method) {
                 continue;
             }
 
-            $pattern = '#^' . $routePath . '$#';
+            $pattern = '#\w' . $routePath . '/?([[:alnum:]])?#';
+
             if (preg_match($pattern, $uri)) {
                 return $route;
             }
         }
 
-        return null;
+        // return null;
     }
 
     public function run()
@@ -43,7 +46,6 @@ class Router
         $uri = $_SERVER['REQUEST_URI'];
         $method = $_SERVER['REQUEST_METHOD'];
         $matchedRoute = $this->match($method, $uri);
-
 
         if ($matchedRoute) {
             $controllerName = $matchedRoute->getController();
@@ -60,6 +62,7 @@ class Router
                 }
             }
         }
+
         include VIEWPATH . "_404.php";
         
     }
