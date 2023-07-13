@@ -33,6 +33,8 @@ class Router
     /**
      * @param string $method
      * @param string $uri
+     * 
+     * @return object
      */
     private function match(string $method, string $uri): object
     {
