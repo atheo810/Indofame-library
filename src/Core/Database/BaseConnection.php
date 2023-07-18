@@ -16,13 +16,16 @@ abstract class BaseConnection
     //     return $this->connection;
     // }
 
-    // /**
-    //  * Close Connection from database
-    //  * @return null
-    //  */
-    // public function closeConnection(): null{
-    //     return $this->connection = null;
-    // }
+    /**
+     * Close Connection from database
+     * 
+     * @return bool|int
+     */
+    public function closeConnection(): bool|int
+    {
+        $this->connection = null;
+        return false;
+    }
 
     /**
      * Data Source Name
@@ -34,9 +37,9 @@ abstract class BaseConnection
     /**
      * Database Port
      * 
-     * @var int|string $port;
+     * @var int|null $port;
      */
-    protected $port = '';
+    protected $port;
 
     /**
      * Hostname
@@ -83,14 +86,14 @@ abstract class BaseConnection
     /**
      * Identifier escape character
      *
-     * @var array|string $escapeChar
+     * @var array<string>|string $escapeChar
      */
     public $escapeChar = '"';
 
     /**
      * Connection instance
      * 
-     * @var object
+     * @var object|null
      */
     protected $connection;
 }

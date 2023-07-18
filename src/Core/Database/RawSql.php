@@ -5,7 +5,9 @@ namespace Atheo\Indoframe\Core\Database;
 class RawSql
 {
     /**
-     *  @var string Raw SQL string
+     * Raw SQL string
+     * 
+     *  @var string $string 
      */
     private string $string;
 
@@ -14,6 +16,10 @@ class RawSql
         $this->string = $sqlString;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function __toString(): string
     {
         return $this->string;
@@ -21,10 +27,12 @@ class RawSql
 
     /**
      * Create new instance with new SQL String
+     * 
      * @param string $newSqlString
+     * 
      * @return object $new
      */
-    public function with(string $newSqlString)
+    public function with(string $newSqlString): object
     {
         $new = clone $this;
         $new->string = $newSqlString;
@@ -34,6 +42,8 @@ class RawSql
 
     /**
      * Returns unique id for binding key
+     * 
+     * @return string 
      */
     public function getBindingKey(): string
     {
